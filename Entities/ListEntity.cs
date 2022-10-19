@@ -1,6 +1,6 @@
-﻿namespace TodoList.Models
+﻿namespace TodoList.Entities
 {
-    public class ListModel
+    public class ListEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

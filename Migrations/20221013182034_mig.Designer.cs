@@ -11,7 +11,7 @@ using TodoList.DataBase;
 
 namespace TodoList.Migrations
 {
-    [DbContext(typeof(ListContext))]
+    [DbContext(typeof(DataBaseContext))]
     [Migration("20221013182034_mig")]
     partial class mig
     {
