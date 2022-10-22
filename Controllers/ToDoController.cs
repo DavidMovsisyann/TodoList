@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoList.DataBase;
 using TodoList.Entities;
+using TodoList.Repositories;
+
 namespace TodoList.Controllers
 {
     [ApiController]
@@ -8,48 +10,33 @@ namespace TodoList.Controllers
     public class ToDoController : Controller
     {
         private DataBaseContext _dataBase;
-        public ToDoController(DataBaseContext database)
+        private ListRepository _listRepository;
+        public ToDoController(DataBaseContext database,ListRepository listRepository)
         {
             _dataBase = database;
+            _listRepository = listRepository;
         }
 
         [HttpPost]
         public void Add([FromBody] ListEntity list)
         {
-            _dataBase.Add(list);
-            _dataBase.SaveChanges();
+           _listRepository.Add(list);
         }
         [HttpPost]
         public void Update([FromBody] ListEntity list)
         {
-            if (list != null)
-            {
-                _dataBase.Update(list);
-                _dataBase.SaveChanges();
-            }
-            else
-            {
-                _dataBase.Add(list);
-                _dataBase.SaveChanges();
-            }
+            _listRepository.Update(list);
         }
         [HttpGet]
         public IEnumerable<ListEntity> GetTasks()
         {
-            return _dataBase.Lists.ToList();
+            return _listRepository.GetTasks();
         }
+
         [HttpDelete("Id")]
         public void DeleteTask(int id)
         {
-            if (id > 0)
-            {
-                var task = _dataBase.Lists.FirstOrDefault(x => x.Id == id);
-                _dataBase.Remove(task);
-            }
-            else
-            {
-                throw new Exception("id should be positive number ");
-            }
+            _listRepository.DeleteTask(id);
         }
     }
 }
