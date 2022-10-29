@@ -13,7 +13,7 @@ namespace TodoList.Repositories
 
         public void Add( ListEntity list)
         {
-            _dataBase.Add(list);
+            _dataBase.Set<ListEntity>().Add(list);
             _dataBase.SaveChanges();
         }
 
@@ -21,17 +21,16 @@ namespace TodoList.Repositories
         {
             if (list != null)
             {
-                _dataBase.Update(list);
+                _dataBase.Set<ListEntity>().Update(list);
                 _dataBase.SaveChanges();
             }
             else
             {
-                _dataBase.Add(list);
-                _dataBase.SaveChanges();
+                throw new Exception("list can't be null");
             }
         }
 
-        public IEnumerable<ListEntity> GetTasks()
+        public List<ListEntity> GetTasks()
         {
             return _dataBase.Lists.ToList();
         }
@@ -41,11 +40,11 @@ namespace TodoList.Repositories
             if (id > 0)
             {
                 var task = _dataBase.Lists.FirstOrDefault(x => x.Id == id);
-                _dataBase.Remove(task);
+                _dataBase.Set<ListEntity>().Remove(task);
             }
             else
             {
-                throw new Exception("id should be positive number ");
+                throw new Exception("id should be positive number");
             }
         }
     }

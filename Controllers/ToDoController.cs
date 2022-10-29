@@ -28,7 +28,7 @@ namespace TodoList.Controllers
             _listRepository.Update(list);
         }
         [HttpGet]
-        public IEnumerable<ListEntity> GetTasks()
+        public List<ListEntity> GetTasks()
         {
             return _listRepository.GetTasks();
         }
